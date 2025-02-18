@@ -1,5 +1,7 @@
 # Backend de Gestor de Reservas de Hoteles
 
+ - MongoBD command: docker run --name mongo-container -d -p 27017:27017 mongo:latest
+
 ## ✨ Arquitectura
 
  - **Microservicio de Autenticación** (Java + Spring Boot + PostgreSQL)
