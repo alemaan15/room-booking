@@ -1,99 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Backend de Gestor de Reservas de Hoteles
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+ - MongoBD command: docker run --name mongo-container -d -p 27017:27017 mongo:latest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## ✨ Arquitectura
 
-## Description
+ - **Microservicio de Autenticación** (Java + Spring Boot + PostgreSQL)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+   - Manejo de usuarios y autenticación con JWT
 
-## Project setup
+   - Control de roles: Administrador, Cliente, Staff
 
-```bash
-$ npm install
-```
+   - Validación de credenciales y seguridad
 
-## Compile and run the project
+ - **Microservicio de Habitaciones y Reservas** (NestJS + MongoDB)
 
-```bash
-# development
-$ npm run start
+   - CRUD de hoteles y habitaciones
 
-# watch mode
-$ npm run start:dev
+   - Gestor de reservas con validación de disponibilidad
 
-# production mode
-$ npm run start:prod
-```
+   - Sincronización de estados de habitaciones
 
-## Run tests
+## ⚒️ Tecnologías Utilizadas
 
-```bash
-# unit tests
-$ npm run test
+ - Backend Autenticación: Java, Spring Boot, Spring Security, PostgreSQL
 
-# e2e tests
-$ npm run test:e2e
+ - Backend Habitaciones: Node.js, NestJS, MongoDB, Mongoose
 
-# test coverage
-$ npm run test:cov
-```
+ - Autenticación: JWT (JSON Web Tokens)
 
-## Deployment
+ - Comunicación: REST API, HTTP Requests
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+ - Docker: Para despliegue y gestión de servicios
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## ✅ Requisitos Previos
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+Antes de ejecutar la aplicación, asegúrate de tener instalado:
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- **Node.js** (v18 o superior) → Para ejecutar el microservicio de reservas
+- **MongoDB** (v6 o superior) → Para la base de datos de reservas
+- **Java** (v17 o superior) → Para el microservicio de autenticación
+- **PostgreSQL** (v14 o superior) → Para la base de datos de autenticación
+- **Docker** (Opcional) → Para ejecutar los servicios en contenedores
 
-## Resources
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🚀 Endpoints principales
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### **🔐 Autentificacion** (Spring Boot)
 
-## Support
+| Método  | Ruta            | Descripción                        |
+|:-------:|:--------------:|:----------------------------------:|
+| **POST**   | `/auth/register` | Registro de usuario              |
+| **POST**   | `/auth/login`    | Inicio de sesión (JWT)           |
+| **GET**    | `/users/profile` | Obtener perfil de usuario        |
+| **PUT**    | `/users/update`  | Actualizar información del usuario |
+| **DELETE** | `/users/delete`  | Eliminar cuenta de usuario       |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### **🏨 Gestión de Habitaciones y Reservas**  (NestJS)
 
-## Stay in touch
+| Método  | Ruta               | Descripción                                |
+|:-------:|:------------------:|:-----------------------------------------:|
+| **GET**    | `/rooms`             | Listar todas las habitaciones           |
+| **POST**   | `/rooms`             | Crear una nueva habitación              |
+| **GET**    | `/rooms/:id`         | Obtener detalles de una habitación      |
+| **PUT**    | `/rooms/:id`         | Actualizar información de una habitación |
+| **DELETE** | `/rooms/:id`         | Eliminar una habitación                 |
+| **POST**   | `/reservations`      | Crear una nueva reserva                 |
+| **GET**    | `/reservations`      | Listar todas las reservas               |
+| **GET**    | `/reservations/:id`  | Obtener detalles de una reserva         |
+| **PUT**    | `/reservations/:id`  | Modificar una reserva                   |
+| **DELETE** | `/reservations/:id`  | Cancelar una reserva                    |
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+### 📌 **Diagrama de Arquitectura**  
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```mermaid
+graph TD;
+    User["🧑 Usuario"] -->|Solicita autenticación| AuthService["🔐 Auth Service (Spring Boot + PostgreSQL)"];
+    AuthService -->|Devuelve JWT| User;
+    
+    User -->|Realiza operaciones de reserva| RoomService["🏨 Room Service (NestJS + MongoDB)"];
+    
+    RoomService -->|Solicita validación de usuario| AuthService;
+    RoomService -->|Guarda información de reservas| MongoDB["🗄️ MongoDB"];
+    
+    AuthService -->|Guarda usuarios y credenciales| PostgreSQL["🗄️ PostgreSQL"];
