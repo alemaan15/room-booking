@@ -1,6 +1,29 @@
 # Backend de Gestor de Reservas de Hoteles
+ - Clonar el repositorio
+ - Ejecutar
 
- - MongoBD command: docker run --name mongo-container -d -p 27017:27017 mongo:latest
+  ```
+  npm i 
+  ```
+
+ - Tener NestCli instalado
+
+  ```
+  npm i -g @nestjs/cli
+  ```
+
+
+ - Levantar la base de datos de MongoBD: 
+  
+  ```
+  docker run --name mongo-container -d -p 27017:27017 mongo:latest
+  ```
+
+ - Levantar el proyecto con: 
+
+```
+npm start
+```
 
 ## ✨ Arquitectura
 
