@@ -8,6 +8,8 @@ export enum ReservationStatus {
   CANCELLED = 'cancelled',
 }
 
+export type ReservationDocument = Reservation & Document;
+
 @Schema()
 export class Reservation extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Room', required: true }) 

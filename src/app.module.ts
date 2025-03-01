@@ -4,6 +4,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { RoomModule } from './room/room.module';
 import { ReservationModule } from './reservations/reservation.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { ReservationModule } from './reservations/reservation.module';
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/room-booking'),
     RoomModule,
-    ReservationModule
+    ReservationModule,
+    SeedModule
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ReservationController } from "./adapters/http/reservation.controller";
-import { ReservationService } from "./adapters/database/reservation.service";
+import { ReservationService } from "./adapters/database/reservation.repository";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Reservation, ReservationSchema } from "./domain/entities/reservation.entity";
 

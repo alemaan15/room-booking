@@ -20,15 +20,15 @@ export class RoomMongoRepository implements RoomRepository{
     return this.roomModel.find();
   }
 
-  findOne(id: number): Promise<CreateRoomDto | null> {
+  findOne(id: string): Promise<CreateRoomDto | null> {
     return this.roomModel.findById(id).exec();
   }
 
-  update(id: number, updateRoomDto: UpdateRoomDto): Promise<CreateRoomDto | null> {
+  update(id: string, updateRoomDto: UpdateRoomDto): Promise<CreateRoomDto | null> {
     return this.roomModel.findByIdAndUpdate(id, updateRoomDto).exec();
   }
 
-  remove(id: number): Promise<CreateRoomDto | null> {
+  remove(id: string): Promise<CreateRoomDto | null> {
     return this.roomModel.findByIdAndDelete(id).exec();
   }
 }
