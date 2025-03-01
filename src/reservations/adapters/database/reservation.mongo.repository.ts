@@ -6,7 +6,7 @@ import { Reservation, ReservationDocument } from "src/reservations/domain/entiti
 import { ReservationRepository } from "src/reservations/domain/repositories/reservation.repository";
 
 @Injectable()
-export class ReservationRepositoryImpl implements ReservationRepository {
+export class ReservationMongoRepository implements ReservationRepository {
   constructor(
     @InjectModel(Reservation.name) private readonly reservationModel: Model<ReservationDocument>,
   ) {}
