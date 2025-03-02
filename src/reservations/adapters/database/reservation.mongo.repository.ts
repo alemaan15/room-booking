@@ -11,6 +11,16 @@ export class ReservationMongoRepository implements ReservationRepository {
     @InjectModel(Reservation.name) private readonly reservationModel: Model<ReservationDocument>,
   ) {}
 
+  async findById(reservationId: string): Promise<Reservation> {
+    const reservation = await this.reservationModel.findById(reservationId).exec();
+
+    if (!reservation) {
+      throw new NotFoundException(`Reservation with ID ${reservationId} not found`);
+    }
+
+    return reservation;
+  }
+
   async findByRoomId(roomId: string): Promise<Reservation[]> {
     return this.reservationModel.find({ roomId }).exec();
   }

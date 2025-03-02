@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { ReservationDTO } from "src/reservations/application/dtos/create-reservation.dto";
+import { CancelReservationUseCase } from "src/reservations/application/use-case/cancel-reservation.usecase";
 import { CreateReservationUseCase } from "src/reservations/application/use-case/create-reservation.usecase";
 import { GetReservationsByRoomIdAndDateUseCase } from "src/reservations/application/use-case/find-reservation-by-room-id-and-date-usecase";
 import { GetReservationsByRoomIdUseCase } from "src/reservations/application/use-case/find-reservation-by-room-id.usecase";
@@ -9,14 +10,21 @@ import { UpdateReservationUseCase } from "src/reservations/application/use-case/
 @Controller('reservation')
 export class ReservationController {
  constructor (
+  private readonly getReservationByIdUseCase: GetReservationsByRoomIdUseCase,
   private readonly getReservationsByRoomIdUseCase: GetReservationsByRoomIdUseCase,
   private readonly getReservationsByUserIdUseCase: GetReservationsByUserIdUseCase,
   private readonly getReservationByRoomIdAndDateUseCase: GetReservationsByRoomIdAndDateUseCase,
   private readonly getReservationByUserIdAndDateUseCase: GetReservationsByUserIdAndDateUseCase,
   private readonly createReservationUseCase: CreateReservationUseCase,
   private readonly updateReservationUseCase: UpdateReservationUseCase,
+  private readonly cancelReservationUseCase: CancelReservationUseCase
  ) {}
 
+  @Get(':reservationId')
+  getReservationById(@Param('reservationId') reservationId: string) {
+    return this.getReservationByIdUseCase.execute(reservationId);
+  } 
+  
   @Get(':roomId')
   getReservationsByRoomId(@Param('roomId') roomId: string) {
     return this.getReservationsByRoomIdUseCase.execute(roomId);
@@ -57,7 +65,7 @@ export class ReservationController {
 
   @Put('/cancel/:reservationId')
   cancelReservation(@Param('reservationId') reservationId: string) {
-    // Implement this method
+    return this.cancelReservationUseCase.execute(reservationId);
   }
 
 }

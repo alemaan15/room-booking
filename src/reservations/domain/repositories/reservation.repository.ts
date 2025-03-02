@@ -2,6 +2,7 @@ import { ReservationDTO } from "src/reservations/application/dtos/create-reserva
 import { Reservation } from "../entities/reservation.entity";
 
 export interface ReservationRepository {
+  findById(reservationId: string): Promise<Reservation>;
   findByRoomId(roomId: string): Promise<Reservation[]>;
   findByUserId(userId: string): Promise<Reservation[]>;
   findByRoomIdAndDate(roomId: string, dateFrom: Date, dateTo: Date): Promise<Reservation[]>;
