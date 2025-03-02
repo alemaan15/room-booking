@@ -16,7 +16,7 @@ export class Reservation extends Document {
   roomId: Types.ObjectId; // Referencia a Room
 
   @Prop({ required: true })
-  userId: string; // UUID del usuario (viene del servicio de autenticación)
+  userId: string; 
 
   @Prop({ required: true })
   startTime: Date;

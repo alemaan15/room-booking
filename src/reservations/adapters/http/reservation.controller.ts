@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { ReservationDTO } from "src/reservations/application/dtos/create-reservation.dto";
 import { CreateReservationUseCase } from "src/reservations/application/use-case/create-reservation.usecase";
 import { GetReservationsByRoomIdAndDateUseCase } from "src/reservations/application/use-case/find-reservation-by-room-id-and-date-usecase";
 import { GetReservationsByRoomIdUseCase } from "src/reservations/application/use-case/find-reservation-by-room-id.usecase";
 import { GetReservationsByUserIdAndDateUseCase } from "src/reservations/application/use-case/find-reservation-by-user-id-and-date.usecase";
 import { GetReservationsByUserIdUseCase } from "src/reservations/application/use-case/find-reservation-by-user-id.usecase";
+import { UpdateReservationUseCase } from "src/reservations/application/use-case/update-reservation.usecase";
 @Controller('reservation')
 export class ReservationController {
  constructor (
@@ -13,6 +14,7 @@ export class ReservationController {
   private readonly getReservationByRoomIdAndDateUseCase: GetReservationsByRoomIdAndDateUseCase,
   private readonly getReservationByUserIdAndDateUseCase: GetReservationsByUserIdAndDateUseCase,
   private readonly createReservationUseCase: CreateReservationUseCase,
+  private readonly updateReservationUseCase: UpdateReservationUseCase,
  ) {}
 
   @Get(':roomId')
@@ -46,6 +48,16 @@ export class ReservationController {
   @Post()
   createReservation(@Body() createReservationDTO: ReservationDTO) {
     return this.createReservationUseCase.execute(createReservationDTO);
+  }
+
+  @Put(':reservationId')
+  updateReservation(@Param('reservationId') reservationId: string, @Body() updateReservationDTO: ReservationDTO) {
+    return this.updateReservationUseCase.execute(reservationId, updateReservationDTO);
+  }
+
+  @Put('/cancel/:reservationId')
+  cancelReservation(@Param('reservationId') reservationId: string) {
+    // Implement this method
   }
 
 }

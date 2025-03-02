@@ -7,4 +7,6 @@ export interface ReservationRepository {
   findByRoomIdAndDate(roomId: string, dateFrom: Date, dateTo: Date): Promise<Reservation[]>;
   findByUserIdAndDate(userId: string, dateFrom: Date, dateTo: Date): Promise<Reservation[]>;
   createReservation(reservationDTO: ReservationDTO): Promise<Reservation>;
+  updateReservation(reservationId: string, reservationDTO: ReservationDTO): Promise<Reservation>;
+  cancelReservation(reservationId: string): Promise<void>;  
 }
