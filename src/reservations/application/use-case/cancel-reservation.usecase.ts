@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { ReservationRepository } from "src/reservations/domain/repositories/reservation.repository";
+import { Inject, Injectable } from "@nestjs/common";
+import { ReservationRepository, ReservationRepositoryToken } from "src/reservations/domain/repositories/reservation.repository";
 
 @Injectable()
 export class CancelReservationUseCase {
   constructor(
+   @Inject(ReservationRepositoryToken)
     private readonly reservationRepository: ReservationRepository,
   ) {}
 

@@ -1,6 +1,7 @@
 import { ReservationDTO } from "src/reservations/application/dtos/create-reservation.dto";
 import { Reservation } from "../entities/reservation.entity";
 
+export const ReservationRepositoryToken = Symbol('ReservationRepository');
 export interface ReservationRepository {
   findById(reservationId: string): Promise<Reservation>;
   findByRoomId(roomId: string): Promise<Reservation[]>;

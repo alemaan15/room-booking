@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { ReservationDTO } from "src/reservations/application/dtos/create-reservation.dto";
 import { CancelReservationUseCase } from "src/reservations/application/use-case/cancel-reservation.usecase";
 import { CreateReservationUseCase } from "src/reservations/application/use-case/create-reservation.usecase";
+import { GetReservationByIdUseCase } from "src/reservations/application/use-case/find-by-id.usecase";
 import { GetReservationsByRoomIdAndDateUseCase } from "src/reservations/application/use-case/find-reservation-by-room-id-and-date-usecase";
 import { GetReservationsByRoomIdUseCase } from "src/reservations/application/use-case/find-reservation-by-room-id.usecase";
 import { GetReservationsByUserIdAndDateUseCase } from "src/reservations/application/use-case/find-reservation-by-user-id-and-date.usecase";
@@ -10,7 +11,7 @@ import { UpdateReservationUseCase } from "src/reservations/application/use-case/
 @Controller('reservation')
 export class ReservationController {
  constructor (
-  private readonly getReservationByIdUseCase: GetReservationsByRoomIdUseCase,
+  private readonly getReservationByIdUseCase: GetReservationByIdUseCase,
   private readonly getReservationsByRoomIdUseCase: GetReservationsByRoomIdUseCase,
   private readonly getReservationsByUserIdUseCase: GetReservationsByUserIdUseCase,
   private readonly getReservationByRoomIdAndDateUseCase: GetReservationsByRoomIdAndDateUseCase,

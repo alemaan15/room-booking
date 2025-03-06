@@ -28,7 +28,7 @@ export class RoomMongoRepository implements RoomRepository{
     return this.roomModel.findByIdAndUpdate(id, updateRoomDto).exec();
   }
 
-  remove(id: string): Promise<CreateRoomDto | null> {
+  remove(id: string): Promise<Room | null> {
     return this.roomModel.findByIdAndDelete(id).exec();
   }
 }
