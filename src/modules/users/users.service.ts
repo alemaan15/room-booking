@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -14,15 +15,12 @@ export class UsersService {
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    const existUser = await this.userModel.findOne({
-      email: createUserDto.email,
-    })
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    if (existUser) {
-      throw new ConflictException(`User with name ${createUserDto.name} already exists`);
-    }
-
-    const createdUser = new this.userModel(createUserDto);
+    const createdUser = new this.userModel({
+      ...createUserDto,
+      password: hashedPassword
+    });
     return createdUser.save();
   }
 
@@ -38,6 +36,18 @@ export class UsersService {
     }
 
     return existUser;
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.userModel.findOne({
+      email: email,
+    })
+
+    if (!user) {
+      throw new ConflictException(`User with id ${email} does not exist`);
+    }
+
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
