@@ -15,6 +15,7 @@ export class CreateUserDto {
   name: string;
 
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
@@ -23,6 +24,7 @@ export class CreateUserDto {
   @Matches(/^(?=.*[A-Z])(?=.*\d)/, {
     message: 'La contraseña debe tener al menos una mayúscula y un número',
   })
+  @IsNotEmpty()
   password: string;
 
   @IsIn(['admin', 'user'], { message: 'El rol debe ser "admin" o "user"' })
