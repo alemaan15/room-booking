@@ -2,14 +2,14 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Reservation } from './entities/reservation.entity';
+import { Reservation, ReservationDocument } from './entities/reservation.entity';
 import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class ReservationsService {
   constructor(
     @InjectModel(Reservation.name)
-    private readonly reservationModel: Model<Reservation>
+    private readonly reservationModel: Model<ReservationDocument>
   ) { }
 
   async create(createReservationDto: CreateReservationDto) {

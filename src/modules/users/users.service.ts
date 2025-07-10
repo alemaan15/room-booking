@@ -1,16 +1,16 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { User } from './entities/user.entity';
-import { Model } from 'mongoose';
+import { User, UserDocument } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
 
   constructor(
     @InjectModel(User.name)
-    private readonly userModel: Model<User>
+    private readonly userModel: Model<UserDocument>
   ) { }
 
   async create(createUserDto: CreateUserDto) {
@@ -30,17 +30,17 @@ export class UsersService {
     return await this.userModel.find()
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const existUser = await this.userModel.findById(id);
 
     if (!existUser) {
       throw new ConflictException(`User with id ${id} does not exist`);
     }
 
-    return this.userModel.findById(id);
+    return existUser;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const updatedUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, {
       new: true, // devuelve el documento actualizado
       runValidators: true,
@@ -53,7 +53,7 @@ export class UsersService {
     return updatedUser;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const deletedUser = await this.userModel.findByIdAndDelete(id);
 
     if (!deletedUser) {
