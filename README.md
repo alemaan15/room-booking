@@ -1,61 +1,70 @@
-# Backend de Gestor de Reservas de Hoteles
+# 🏨 Backend del Gestor de Reservas de Hoteles
 
- - MongoBD command: docker run --name mongo-container -d -p 27017:27017 mongo:latest
+Este proyecto es un backend RESTful desarrollado con **NestJS + MongoDB** para gestionar usuarios, habitaciones y reservas de forma centralizada, usando autenticación JWT.
 
-## ✨ Arquitectura
+---
 
- - **Microservicio de Autenticación** (Java + Spring Boot + PostgreSQL)
+## 🧱 Arquitectura
 
-   - Manejo de usuarios y autenticación con JWT
+- **NestJS + MongoDB** (Monolito)
+  - Autenticación de usuarios con JWT
+  - Control de roles (`admin`, `user`)
+  - CRUD de usuarios, habitaciones y reservas
+  - Validación de disponibilidad de habitaciones
+  - Gestión centralizada de lógica y datos
 
-   - Control de roles: Administrador, Cliente, Staff
-
-   - Validación de credenciales y seguridad
-
- - **Microservicio de Habitaciones y Reservas** (NestJS + MongoDB)
-
-   - CRUD de hoteles y habitaciones
-
-   - Gestor de reservas con validación de disponibilidad
-
-   - Sincronización de estados de habitaciones
+---
 
 ## ⚒️ Tecnologías Utilizadas
 
- - Backend Autenticación: Java, Spring Boot, Spring Security, PostgreSQL
+- **Backend**: Node.js, NestJS, TypeScript
+- **Base de datos**: MongoDB (Mongoose ODM)
+- **Autenticación**: JSON Web Tokens (JWT)
+- **Docker**: Para desarrollo local de MongoDB
+- **Validación de datos**: class-validator + DTOs
+- **Gestión de entorno**: ConfigModule (env variables por entorno)
 
- - Backend Habitaciones: Node.js, NestJS, MongoDB, Mongoose
-
- - Autenticación: JWT (JSON Web Tokens)
-
- - Comunicación: REST API, HTTP Requests
-
- - Docker: Para despliegue y gestión de servicios
+---
 
 ## ✅ Requisitos Previos
 
 Antes de ejecutar la aplicación, asegúrate de tener instalado:
 
-- **Node.js** (v18 o superior) → Para ejecutar el microservicio de reservas
-- **MongoDB** (v6 o superior) → Para la base de datos de reservas
-- **Java** (v17 o superior) → Para el microservicio de autenticación
-- **PostgreSQL** (v14 o superior) → Para la base de datos de autenticación
-- **Docker** (Opcional) → Para ejecutar los servicios en contenedores
+- [Node.js](https://nodejs.org/) (v18 o superior)
+- [Docker](https://www.docker.com/) → Para correr MongoDB localmente (opcional)
+- [MongoDB Compass](https://www.mongodb.com/try/download/compass) (opcional, GUI visual)
+
+---
+
+## 🐳 Comando para levantar MongoDB con Docker
+
+```bash
+docker run --name mongo-container -d -p 27017:27017 mongo:latest
+```
 
 
 ## 🚀 Endpoints principales
 
-### **🔐 Autentificacion** (Spring Boot)
+
+
+### **🔐 Autentificacion**
 
 | Método  | Ruta            | Descripción                        |
 |:-------:|:--------------:|:----------------------------------:|
 | **POST**   | `/auth/register` | Registro de usuario              |
 | **POST**   | `/auth/login`    | Inicio de sesión (JWT)           |
-| **GET**    | `/users/profile` | Obtener perfil de usuario        |
-| **PUT**    | `/users/update`  | Actualizar información del usuario |
-| **DELETE** | `/users/delete`  | Eliminar cuenta de usuario       |
 
-### **🏨 Gestión de Habitaciones y Reservas**  (NestJS)
+
+### 👤 Usuarios
+
+| Método  | Ruta                 | Descripción                  |
+|:-------:|:--------------:|:----------------------------------:|
+| **GET**   | `/users`           |   Obtener todos los usuarios|
+| **GET**   | `/users/:id`     | Obtener un usuario por ID       |
+| **PUT**   | `/users/:id`     | Actualizar un usuario por ID       |
+| **DELETE**   | `/users/:id`     | Eliminar un usuario por ID       |
+
+### **🏨 Gestión de Habitaciones y Reservas**
 
 | Método  | Ruta               | Descripción                                |
 |:-------:|:------------------:|:-----------------------------------------:|
@@ -64,6 +73,9 @@ Antes de ejecutar la aplicación, asegúrate de tener instalado:
 | **GET**    | `/rooms/:id`         | Obtener detalles de una habitación      |
 | **PUT**    | `/rooms/:id`         | Actualizar información de una habitación |
 | **DELETE** | `/rooms/:id`         | Eliminar una habitación                 |
+
+### **📅 Reservas**
+
 | **POST**   | `/reservations`      | Crear una nueva reserva                 |
 | **GET**    | `/reservations`      | Listar todas las reservas               |
 | **GET**    | `/reservations/:id`  | Obtener detalles de una reserva         |
@@ -75,12 +87,8 @@ Antes de ejecutar la aplicación, asegúrate de tener instalado:
 
 ```mermaid
 graph TD;
-    User["🧑 Usuario"] -->|Solicita autenticación| AuthService["🔐 Auth Service (Spring Boot + PostgreSQL)"];
-    AuthService -->|Devuelve JWT| User;
-    
-    User -->|Realiza operaciones de reserva| RoomService["🏨 Room Service (NestJS + MongoDB)"];
-    
-    RoomService -->|Solicita validación de usuario| AuthService;
-    RoomService -->|Guarda información de reservas| MongoDB["🗄️ MongoDB"];
-    
-    AuthService -->|Guarda usuarios y credenciales| PostgreSQL["🗄️ PostgreSQL"];
+    Usuario["🧑 Usuario"] -->|Login/Register| AuthController["🔐 AuthController"];
+    AuthController -->|JWT Token| Usuario;
+
+    Usuario -->|Accede con token| RoomController["🏨 Rooms"];
+    Usuario -->|Reserva habitaciones| ReservationController["📅 Reservations"];
