@@ -1,13 +1,19 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from '../users/users.service';
+import { LoginDto } from './dto/login.dto';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    private readonly userService: UsersService
+    private readonly userService: UsersService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService
 
   ) { }
   async register(registerDto: RegisterDto) {
@@ -20,19 +26,28 @@ export class AuthService {
     return this.userService.create(registerDto);
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(loginDto: LoginDto) {
+    const existsUser = await this.userService.findByEmail(loginDto.email);
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    if (!existsUser) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    const isPasswordValid = await bcrypt.compare(loginDto.password, existsUser.password);
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const payload = { email: existsUser.email, sub: existsUser._id, name: existsUser.name };
+
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '7d',
+      secret: this.configService.get('JWT_REFRESH'),
+    })
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+      refreshToken: refreshToken,
+    }
   }
 }

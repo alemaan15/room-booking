@@ -15,6 +15,7 @@ export class UsersService {
   ) { }
 
   async create(createUserDto: CreateUserDto) {
+    console.log('createUserDto', createUserDto);
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
     const createdUser = new this.userModel({
@@ -39,20 +40,14 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
-    const user = await this.userModel.findOne({
+    return await this.userModel.findOne({
       email: email,
     })
-
-    if (!user) {
-      throw new ConflictException(`User with id ${email} does not exist`);
-    }
-
-    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     const updatedUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, {
-      new: true, // devuelve el documento actualizado
+      new: true,
       runValidators: true,
     });
 
