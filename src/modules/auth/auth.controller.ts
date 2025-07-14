@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -15,5 +15,15 @@ export class AuthController {
   @Post('/login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Post('/refresh')
+  refreshTokens(@Req() request: Request) {
+    const refreshToken = request.headers['authorization']?.split(' ')[1];
+
+    if (!refreshToken) {
+      return { status: 401, message: 'Refresh token is required' };
+    }
+    return this.authService.refreshTokens(refreshToken);
   }
 }
